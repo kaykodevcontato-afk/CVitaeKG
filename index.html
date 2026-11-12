@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111a32">
+  <meta name="description" content="Crie currículos profissionais em minutos: edite, escolha um modelo, imprima ou salve como PDF. Desenvolvido por Dev Kayko.">
+  <title>Currículo Studio | Dev Kayko</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Currículo Studio, início">
+        <span class="brand-icon" aria-hidden="true"><span>C</span><span class="brand-dot"></span></span>
+        <span class="brand-copy"><strong>Currículo <span>Studio</span></strong><small>por Dev Kayko</small></span>
+      </a>
+      <div class="topbar-center"><span class="status-dot"></span><span id="saveStatus" role="status" aria-live="polite">Pronto para começar</span></div>
+      <div class="header-actions">
+        <button class="btn btn-quiet" id="demoBtn" type="button" title="Carregar dados fictícios para testar">Ver exemplo</button>
+        <button class="btn btn-quiet" id="importBtn" type="button" title="Importar backup JSON">Importar</button>
+        <button class="btn btn-quiet" id="backupBtn" type="button" title="Baixar backup editável em JSON">Backup</button>
+        <button class="btn btn-outline" id="newBtn" type="button">Novo cliente</button>
+      </div>
+    </header>
+
+    <main class="workspace" id="inicio">
+      <section class="editor-panel" aria-labelledby="editorHeading">
+        <div class="editor-intro">
+          <div class="eyebrow"><span class="eyebrow-line"></span> ESTÚDIO DE CURRÍCULOS</div>
+          <h1 id="editorHeading">Um currículo que abre portas<span class="accent-dot">.</span></h1>
+          <p>Preencha, escolha o visual e entregue um currículo pronto para imprimir.</p>
+          <div class="editor-progress"><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><span id="progressText">0% preenchido</span></div>
+        </div>
+
+        <nav class="form-tabs" aria-label="Etapas do currículo">
+          <button class="tab is-active" type="button" data-tab="dados" aria-selected="true"><span class="tab-num">01</span> Dados</button>
+          <button class="tab" type="button" data-tab="experiencia" aria-selected="false"><span class="tab-num">02</span> Experiência</button>
+          <button class="tab" type="button" data-tab="formacao" aria-selected="false"><span class="tab-num">03</span> Formação</button>
+          <button class="tab" type="button" data-tab="extras" aria-selected="false"><span class="tab-num">04</span> Extras</button>
+          <button class="tab" type="button" data-tab="visual" aria-selected="false"><span class="tab-num">05</span> Visual</button>
+        </nav>
+
+        <div class="editor-scroll">
+          <section class="tab-panel is-active" id="panel-dados" aria-labelledby="dadosTitle">
+            <div class="section-head"><span class="section-index">01 / 05</span><h2 id="dadosTitle">Informações pessoais</h2><p>Comece com seus dados de contato e sua apresentação profissional.</p></div>
+            <div class="form-grid">
+              <label class="field full"><span>Nome completo <em>*</em></span><input id="fullName" data-field="fullName" maxlength="100" placeholder="Ex.: Ana Carolina Souza" autocomplete="name"></label>
+              <label class="field full"><span>Cargo ou área desejada</span><input id="jobTitle" data-field="jobTitle" maxlength="100" placeholder="Ex.: Assistente administrativo"></label>
+              <label class="field"><span>E-mail</span><input id="email" data-field="email" maxlength="120" type="email" placeholder="seunome@email.com" autocomplete="email"></label>
+              <label class="field"><span>Telefone / WhatsApp</span><input id="phone" data-field="phone" maxlength="50" type="tel" placeholder="(87) 99999-9999" autocomplete="tel"></label>
+              <label class="field"><span>Cidade</span><input id="city" data-field="city" maxlength="75" placeholder="Ex.: Arcoverde" autocomplete="address-level2"></label>
+              <label class="field"><span>Estado / UF</span><input id="state" data-field="state" maxlength="60" placeholder="Ex.: PE" autocomplete="address-level1"></label>
+              <label class="field full"><span>LinkedIn</span><input id="linkedin" data-field="linkedin" maxlength="180" placeholder="linkedin.com/in/seu-perfil"></label>
+              <label class="field full"><span>Site, portfólio ou GitHub</span><input id="website" data-field="website" maxlength="180" placeholder="github.com/seu-perfil"></label>
+              <label class="field full"><span>Resumo profissional / Objetivo</span><textarea id="summary" data-field="summary" rows="6" maxlength="2200" placeholder="Conte brevemente sobre sua experiência, competências e o que busca profissionalmente."></textarea><small>Escreva 3 a 5 linhas, de preferência. Não é obrigatório informar idade, RG ou CPF.</small></label>
+            </div>
+          </section>
+
+          <section class="tab-panel" id="panel-experiencia" aria-labelledby="expTitle" hidden>
+            <div class="section-head"><span class="section-index">02 / 05</span><h2 id="expTitle">Experiência profissional</h2><p>Inclua os empregos, estágios ou trabalhos relevantes. Os mais recentes vêm primeiro.</p></div>
+            <div class="repeater" id="experienceList"></div>
+            <button class="btn btn-add" type="button" data-add="experience"><span aria-hidden="true">+</span> Adicionar experiência</button>
+            <div class="inline-tip">Sem experiência formal? Você pode destacar projetos, trabalhos voluntários e cursos nas próximas etapas.</div>
+          </section>
+
+          <section class="tab-panel" id="panel-formacao" aria-labelledby="educationTitle" hidden>
+            <div class="section-head"><span class="section-index">03 / 05</span><h2 id="educationTitle">Formação e cursos</h2><p>Adicione seus estudos e cursos de qualificação profissional.</p></div>
+            <div class="repeat-head"><h3>Formação acadêmica</h3><span class="count-pill" id="educationCount">0 itens</span></div>
+            <div class="repeater" id="educationList"></div>
+            <button class="btn btn-add" type="button" data-add="education"><span aria-hidden="true">+</span> Adicionar formação</button>
+            <div class="repeat-head with-space"><h3>Cursos e certificações</h3><span class="count-pill" id="courseCount">0 itens</span></div>
+            <div class="repeater" id="coursesList"></div>
+            <button class="btn btn-add" type="button" data-add="courses"><span aria-hidden="true">+</span> Adicionar curso</button>
+          </section>
+
+          <section class="tab-panel" id="panel-extras" aria-labelledby="extrasTitle" hidden>
+            <div class="section-head"><span class="section-index">04 / 05</span><h2 id="extrasTitle">Habilidades e diferenciais</h2><p>Mostre o que você sabe fazer e os projetos dos quais participou.</p></div>
+            <div class="form-grid">
+              <label class="field full"><span>Competências e habilidades</span><textarea id="skills" data-field="skills" rows="4" maxlength="1600" placeholder="Atendimento ao cliente, Excel, Organização, Comunicação, Trabalho em equipe"></textarea><small>Separe por vírgulas ou por uma linha para cada habilidade.</small></label>
+              <label class="field full"><span>Informações adicionais</span><textarea id="additional" data-field="additional" rows="4" maxlength="2000" placeholder="Ex.: Disponibilidade para viagens, CNH categoria B, trabalho voluntário..."></textarea><small>Uma informação por linha, se preferir.</small></label>
+            </div>
+            <div class="repeat-head with-space"><h3>Idiomas</h3><span class="count-pill" id="languageCount">0 itens</span></div>
+            <div class="repeater" id="languagesList"></div>
+            <button class="btn btn-add" type="button" data-add="languages"><span aria-hidden="true">+</span> Adicionar idioma</button>
+            <div class="repeat-head with-space"><h3>Projetos e realizações</h3><span class="count-pill" id="projectCount">0 itens</span></div>
+            <div class="repeater" id="projectsList"></div>
+            <button class="btn btn-add" type="button" data-add="projects"><span aria-hidden="true">+</span> Adicionar projeto</button>
+          </section>
+
+          <section class="tab-panel" id="panel-visual" aria-labelledby="visualTitle" hidden>
+            <div class="section-head"><span class="section-index">05 / 05</span><h2 id="visualTitle">Identidade visual</h2><p>Escolha o modelo, o tom e o tamanho do texto para seu currículo.</p></div>
+            <h3 class="subheading">Modelos disponíveis</h3>
+            <div class="template-grid" id="templateGrid">
+              <button type="button" class="template-card is-selected" data-template="modern" aria-pressed="true"><span class="template-swatch swatch-modern"><i></i><b></b><b></b><b></b><b></b></span><strong>Moderno</strong><small>Contemporâneo e versátil</small></button>
+              <button type="button" class="template-card" data-template="classic" aria-pressed="false"><span class="template-swatch swatch-classic"><i></i><b></b><b></b><b></b><b></b></span><strong>Clássico</strong><small>Discreto e tradicional</small></button>
+              <button type="button" class="template-card" data-template="executive" aria-pressed="false"><span class="template-swatch swatch-executive"><i></i><b></b><b></b><b></b><b></b></span><strong>Executivo</strong><small>Forte e sofisticado</small></button>
+              <button type="button" class="template-card" data-template="creative" aria-pressed="false"><span class="template-swatch swatch-creative"><i></i><b></b><b></b><b></b><b></b></span><strong>Criativo</strong><small>Expressivo e marcante</small></button>
+            </div>
+            <div class="visual-settings">
+              <div><h3 class="subheading">Cor de destaque</h3><div class="color-options" id="colorOptions" role="group" aria-label="Cor de destaque">
+                <button class="color-choice is-selected" type="button" data-color="#2355d5" aria-label="Azul" aria-pressed="true" style="--swatch:#2355d5"></button>
+                <button class="color-choice" type="button" data-color="#0f766e" aria-label="Verde petróleo" aria-pressed="false" style="--swatch:#0f766e"></button>
+                <button class="color-choice" type="button" data-color="#783bb5" aria-label="Roxo" aria-pressed="false" style="--swatch:#783bb5"></button>
+                <button class="color-choice" type="button" data-color="#a44533" aria-label="Terracota" aria-pressed="false" style="--swatch:#a44533"></button>
+                <button class="color-choice" type="button" data-color="#263449" aria-label="Grafite" aria-pressed="false" style="--swatch:#263449"></button>
+              </div></div>
+              <div class="setting-row"><div><h3 class="subheading">Tamanho do texto</h3><p>O ajuste também afeta a impressão.</p></div><label class="font-setting"><span id="fontSizeValue">100%</span><input id="fontSize" type="range" min="90" max="110" step="5" value="100" aria-label="Tamanho do texto do currículo"></label></div>
+              <div class="setting-row"><div><h3 class="subheading">Foto no currículo</h3><p>Opcional. Geralmente não é necessária.</p></div><label class="switch"><input type="checkbox" id="showPhoto"><span class="switch-track"></span><span class="sr-only">Exibir foto</span></label></div>
+              <div class="photo-settings" id="photoSettings" hidden><input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button class="btn btn-outline" type="button" id="uploadPhotoBtn">Escolher foto</button><button class="btn btn-quiet" type="button" id="removePhotoBtn">Remover</button><span id="photoStatus">Nenhuma foto escolhida</span></div>
+            </div>
+          </section>
+        </div>
+        <footer class="editor-footer"><span><span class="lock-symbol" aria-hidden="true">◈</span> Seus dados ficam neste navegador.</span><button class="text-link" id="privacyBtn" type="button">Privacidade</button></footer>
+      </section>
+
+      <section class="preview-panel" aria-labelledby="previewHeading">
+        <div class="preview-toolbar"><div class="preview-heading"><span class="live-indicator"></span><div><h2 id="previewHeading">Pré-visualização</h2><p>Formato A4 • atualização em tempo real</p></div></div><div class="preview-toolbar-actions"><button type="button" class="icon-button" id="zoomOutBtn" title="Diminuir zoom" aria-label="Diminuir zoom">−</button><span id="zoomLabel" class="zoom-value">Auto</span><button type="button" class="icon-button" id="zoomInBtn" title="Aumentar zoom" aria-label="Aumentar zoom">+</button></div></div>
+        <div class="preview-viewport" id="previewViewport"><div class="paper-outer" id="paperOuter"><article class="resume-paper template-modern" id="resumePaper" aria-label="Prévia do currículo" style="--resume-accent:#2355d5;--font-scale:1"><div id="resumeBody"></div></article></div></div>
+        <div class="preview-bottom"><span class="hint-icon" aria-hidden="true">i</span><p>O arquivo PDF será gerado usando a opção <strong>Salvar como PDF</strong> na janela de impressão do navegador.</p></div>
+        <div class="print-actions"><button class="btn btn-outline btn-print" type="button" id="printBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 15h12v6H6zM18 12h.01"/></svg>Imprimir</button><button class="btn btn-primary btn-print" type="button" id="pdfBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg>Salvar em PDF</button></div>
+        <div class="developer-credit">Criado com cuidado por <strong>Dev Kayko</strong> <span>© <span id="currentYear">2026</span></span></div>
+      </section>
+    </main>
+  </div>
+  <input type="file" id="importInput" accept="application/json,.json" hidden>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="confirmDialog" class="confirm-dialog" aria-labelledby="dialogTitle"><form method="dialog"><div class="dialog-icon" aria-hidden="true">!</div><h2 id="dialogTitle">Começar novo currículo?</h2><p>O formulário atual será apagado deste navegador. Se quiser guardar as informações, faça um backup antes.</p><div class="dialog-actions"><button type="submit" class="btn btn-outline" value="cancel">Cancelar</button><button type="submit" class="btn btn-danger" value="confirm">Apagar e começar</button></div></form></dialog>
+  <dialog id="privacyDialog" class="confirm-dialog privacy-dialog" aria-labelledby="privacyTitle"><form method="dialog"><h2 id="privacyTitle">Seus dados e sua privacidade</h2><p>Este site funciona diretamente no navegador. Os dados digitados e a foto (quando adicionada) são mantidos no armazenamento local do aparelho para permitir a continuação da edição, sem serem enviados a um servidor.</p><p>Em computadores compartilhados, clique em <strong>Novo cliente</strong> depois de imprimir e entregar o currículo. Você também pode salvar um <strong>Backup</strong> em JSON para editar mais tarde.</p><div class="dialog-actions"><button type="submit" class="btn btn-primary" value="close">Entendi</button></div></form></dialog>
+</body>
+</html>

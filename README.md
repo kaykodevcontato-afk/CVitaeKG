@@ -1,0 +1,74 @@
+# Currículo Studio 1.0 — Dev Kayko
+
+Gerador de currículos profissionais para clientes, desenvolvido em **HTML + CSS + JavaScript puros**, sem frameworks, sem servidor, sem banco de dados e compatível com **GitHub Pages**.
+
+## Principais recursos
+
+- Formulário completo com dados pessoais, objetivo profissional, experiências, formação, cursos, competências, idiomas, projetos e informações adicionais.
+- Atualização da prévia em tempo real no **papel A4**.
+- **4 modelos:** Moderno, Clássico, Executivo e Criativo.
+- **5 cores** e ajuste de fonte (90% a 110%).
+- Foto opcional, reduzida automaticamente no dispositivo (sem upload externo).
+- **Imprimir** e **Salvar em PDF** usando a impressão nativa do navegador.
+- **Backup** e **Importar** em JSON para voltar a editar o currículo.
+- Rascunho salvo automaticamente no navegador (`localStorage`).
+- Botão **Novo cliente** para limpar dados antes de um novo atendimento.
+- Layout responsivo, sem dependências externas, sem cookies de rastreamento.
+
+## Como publicar no GitHub Pages
+
+1. Crie um repositório no GitHub. Exemplo: `curriculo-studio`.
+2. Envie o arquivo `index.html`, esta documentação e **toda a pasta `assets/`** para a raiz do repositório. Mantenha exatamente as pastas e os nomes.
+3. Vá a **Settings → Pages**.
+4. Em **Build and deployment**, escolha **Deploy from a branch**. Selecione `main` e `/ (root)` e clique em **Save**.
+5. Seu endereço será semelhante a: `https://SEU-USUARIO.github.io/curriculo-studio/`.
+
+Você também pode abrir `index.html` diretamente no computador para trabalhar sem internet.
+
+## Como usar para atendimento ao cliente
+
+1. Clique em **Novo cliente** (se existir um rascunho de outra pessoa).
+2. Digite os dados. Use **Ver exemplo** se quiser testar os modelos com informações fictícias.
+3. Acesse **Visual** e escolha o modelo, cor, tamanho do texto e foto (opcional).
+4. Clique em **Imprimir** para mandar para a impressora.
+5. Clique em **Salvar em PDF**, escolha no diálogo do navegador o destino **Salvar como PDF / Microsoft Print to PDF**, tamanho **A4**, e salve o documento. **A exportação não é um download direto**: ela utiliza o recurso de PDF do sistema/navegador.
+6. Se precisar continuar outro dia, clique em **Backup** e guarde o arquivo `.json`. Use **Importar** para restaurá-lo.
+7. Após entregar, **Novo cliente** apaga o rascunho local do atendimento anterior.
+
+### Configuração recomendada para o PDF
+
+- **Papel:** A4.
+- **Escala:** padrão / 100%.
+- **Margens:** nenhuma / padrão do site.
+- **Cabeçalhos e rodapés do navegador:** desativados.
+- **Gráficos de segundo plano:** ativados, especialmente para os modelos Executivo e Criativo.
+- Currículos longos podem ocupar duas ou mais páginas. O site tenta evitar dividir uma experiência entre páginas; recomenda-se textos concisos.
+
+## Onde editar cada parte
+
+```text
+curriculo-studio-dev-kayko/
+├── index.html               # Estrutura, campos e botões
+├── README.md                # Documentação
+└── assets/
+    ├── favicon.svg          # Ícone da aba
+    ├── css/
+    │   └── styles.css       # Visual do site, modelos de currículo, impressão e celular
+    └── js/
+        └── app.js           # Formulário, modelos, prévia, PDF, backup e armazenamento
+```
+
+Para mudar o título, texto ou o nome do desenvolvedor, edite o `index.html`. Para mudar as cores, edite `:root` no início do CSS. Para mudar os campos ou o conteúdo do currículo, veja `FIELDS`, `COLLECTIONS`, `renderResume()` e `DEMO` no começo de `app.js`.
+
+## Privacidade, segurança e limitações
+
+- **Os dados não são enviados para o GitHub ou para qualquer servidor**, porque o aplicativo não tem backend. O GitHub hospeda apenas os arquivos públicos do código.
+- O rascunho fica salvo no **navegador e dispositivo em uso**. Ele não sincroniza automaticamente entre computadores e pode desaparecer se os dados do site forem apagados ou se a navegação privada for encerrada.
+- Quem utilizar o mesmo perfil do navegador neste computador poderá ver o rascunho existente. Em balcões, sempre use **Novo cliente** após o atendimento.
+- O backup JSON e o PDF contêm dados pessoais. Trate esses arquivos com cuidado.
+- Não há login, contas de usuários, cobrança ou salvamento em nuvem. Essas funções exigem serviços adicionais e medidas de segurança próprias.
+- A foto é opcional; para muitas vagas, recomenda-se não adicionar foto nem dados pessoais desnecessários.
+- O recurso de PDF requer navegador/sistema com opção de impressão para PDF. Em celulares, o caminho varia conforme o navegador.
+
+**Desenvolvimento:** Dev Kayko  
+**Versão:** 1.0
