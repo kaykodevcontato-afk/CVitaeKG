@@ -24,6 +24,179 @@
 .template-classic{font-family:Georgia,"Times New Roman",serif;color:#282522}.template-classic .cv-header{flex-direction:column;align-items:center;text-align:center;border-bottom:1px solid #514f4b;padding-bottom:19px}.template-classic .cv-contacts{justify-content:center}.template-classic h1{font-size:calc(26pt * var(--font-scale));letter-spacing:0;font-weight:700}.template-classic .cv-role{color:#514f4b;font-style:italic;font-weight:400}.template-classic .cv-photo{order:-1;width:26mm;height:31mm;border-radius:50%}.template-classic .cv-section-title{color:#292622;border-bottom:1px solid #aaa49b;letter-spacing:1.5px;text-align:center;font-size:calc(9.8pt * var(--font-scale))}.template-classic .cv-contacts,.template-classic .cv-entry-date,.template-classic .cv-entry-subtitle,.template-classic .cv-entry-info,.template-classic .cv-summary{color:#56524c}.template-classic .cv-contact::before{color:#888}.template-classic .cv-chip{background:transparent;border:1px solid #c8c3bc;color:#3d3832}
 .template-executive{padding-top:0}.template-executive .cv-header{background:#1b2841;color:white;margin:0 -17mm;padding:15mm 17mm 11mm;border:0;min-height:48mm}.template-executive h1{color:#fff;font-size:calc(29pt * var(--font-scale))}.template-executive .cv-role{color:#a9c7ff}.template-executive .cv-contact,.template-executive .cv-contact::before{color:#d5dfef}.template-executive .cv-photo{border:3px solid #8996b0;border-radius:2px}.template-executive .cv-section-title{border-bottom:2px solid var(--resume-accent);padding-bottom:7px;color:#1b2841}.template-executive .cv-content{margin-top:18px}.template-executive .cv-chip{border-left:3px solid var(--resume-accent);border-radius:0;background:#f3f5f8}
 .template-creative{border-top:9px solid var(--resume-accent);padding-top:15mm}.template-creative .cv-header{border:0;border-left:5px solid var(--resume-accent);padding:4px 0 10px 16px}.template-creative h1{font-size:calc(31pt * var(--font-scale));letter-spacing:-1.5px}.template-creative .cv-role{font-weight:800;text-transform:uppercase;letter-spacing:1px;font-size:calc(10pt * var(--font-scale))}.template-creative .cv-section-title{display:inline-block;background:var(--resume-accent);color:#fff;padding:5px 12px;border:0;border-radius:2px;letter-spacing:.9px}.template-creative .cv-chip{border-radius:20px;background:#f0f5f5;border:1px solid #dce8e6}.template-creative .cv-content{margin-top:27px}
+/* ==============================================================
+   NOVOS MODELOS — Currículo Studio 2.0
+   Todas as cores vêm das propriedades definidas em app.js.
+   A estrutura cv-layout-grid é usada por Duas colunas e Tecnologia.
+   ============================================================== */
+.template-grid{gap:10px}
+.template-card{min-height:154px}
+.template-card .template-swatch{width:100%;height:93px;padding:17px 18px}
+.template-card.is-selected{border-color:#2355d5;box-shadow:0 0 0 2px #2355d51a;background:#f8faff}
+.template-swatch b{flex-shrink:0}
+.swatch-minimal{background:#fbfbfb;border:1px solid #e7e9ed}
+.swatch-minimal i{width:35%;height:3px;background:#262c34}
+.swatch-minimal b{height:3px;background:#cacdd3}
+.swatch-columns{background:linear-gradient(90deg,#fafbfc 0 65%,#e9f0f8 65%)}
+.swatch-columns i{width:43%;background:#2774a6}
+.swatch-columns b{width:58%;background:#becddf}
+.swatch-elegant{background:#fbf8f3;align-items:center}
+.swatch-elegant i{height:8px;width:62%;background:#95702a}
+.swatch-elegant b{background:#d8cdbb}
+.swatch-tech{background:linear-gradient(90deg,#1c2942 0 32%,#f1f6fb 32%)}
+.swatch-tech i{margin-left:34%;background:#0b7a91;width:46%}
+.swatch-tech b{margin-left:34%;width:58%;background:#b5c8d7}
+.swatch-timeline{background:#f7fafc;border-left:5px solid #247d91}
+.swatch-timeline i{height:7px;width:61%;background:#247d91}
+.swatch-timeline b{margin-left:9px;width:78%;border-left:3px solid #247d91;background:#c9d9e1}
+.swatch-compact{background:#f7f7f8;gap:5px}
+.swatch-compact i{height:6px;background:#323b4b}
+.swatch-compact b{height:3px;background:#aab0bd}
+.swatch-editorial{background:linear-gradient(#322e42 0 49%,#f5f0f7 49%)}
+.swatch-editorial i{background:#fff;height:12px;width:75%}
+.swatch-editorial b{background:#c7bcce}
+.swatch-academic{background:#faf8f4;border:2px solid #dbd5cb;align-items:center}
+.swatch-academic i{background:#464037;width:60%;height:6px}
+.swatch-academic b{background:#cbc3b7;height:3px}
+/* Paletas e seletor HEX livre */
+.palette-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.palette-count{font-size:10px;font-weight:700;color:#7890a9}
+.palette-help{font-size:11px;color:#8491a4;margin:8px 0 0;line-height:1.5}
+.color-options{gap:11px 12px;margin-top:18px;margin-bottom:19px}
+.color-choice{width:35px;height:35px;flex-shrink:0;border-radius:50%;box-shadow:0 0 0 1px #dbe2ec;position:relative}
+.color-choice:hover{transform:translateY(-2px)}
+.color-choice.is-selected{box-shadow:0 0 0 2px #2355d5,0 3px 12px #24385d20;transform:none}
+.color-choice.is-selected::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:800;text-shadow:0 1px 3px #0009}
+.custom-color-row{border:1px solid #e2e9f3;background:#f9fbfe;border-radius:12px;display:flex;align-items:center;gap:11px;padding:12px;cursor:pointer;margin-bottom:25px}
+.custom-color-row:hover{border-color:#9ab4db}
+.custom-color-icon{display:grid;place-items:center;background:#fff;border:1px solid #e3e9f3;border-radius:9px;width:34px;height:34px;color:#7c6ac4;flex-shrink:0}
+.custom-color-text{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.custom-color-text strong{font-size:11px;color:#28334b}
+.custom-color-text small{font-size:10px;color:#8593a5}
+.custom-color-hex{font-size:10px;color:#627188;font-weight:800;white-space:nowrap}
+.custom-color-row input[type=color]{appearance:none;-webkit-appearance:none;border:1px solid #d1d9e5;border-radius:7px;background:#fff;width:42px;height:36px;padding:3px;cursor:pointer;flex-shrink:0}
+.custom-color-row input[type=color]::-webkit-color-swatch-wrapper{padding:0}
+.custom-color-row input[type=color]::-webkit-color-swatch{border:0;border-radius:4px}
+.custom-color-row input[type=color]::-moz-color-swatch{border:0;border-radius:4px}
+/* Cor escolhida também funciona com cores suaves e personalizadas. */
+.resume-paper{--resume-accent-ink:#2355d5;--resume-accent-soft:#eef3ff;--resume-accent-dark:#2147a0;--resume-accent-on:#fff}
+.resume-paper .cv-section-title{color:var(--resume-accent-ink)}
+.resume-paper .cv-role{color:var(--resume-accent-ink)}
+.resume-paper .cv-contact::before{color:var(--resume-accent-ink)}
+.template-executive .cv-header{background:var(--resume-accent-dark)}
+.template-executive .cv-role{color:#e6edff}
+.template-executive .cv-contacts .cv-contact,.template-executive .cv-contact::before{color:#fff}
+.template-executive .cv-section-title{color:var(--resume-accent-ink);border-bottom-color:var(--resume-accent)}
+.template-classic .cv-header{border-bottom-color:var(--resume-accent-ink)}
+.template-classic .cv-section-title{color:var(--resume-accent-ink);border-bottom-color:var(--resume-accent)}
+.template-creative .cv-section-title{color:var(--resume-accent-on)}
+.template-creative .cv-contact::before{color:var(--resume-accent-ink)}
+/* 05 · Minimalista: sem painéis, títulos leves, foco no texto. */
+.template-minimal{padding:19mm 19mm;color:#20252c;font-family:Arial,Helvetica,sans-serif}
+.template-minimal .cv-header{border:0;border-top:1px solid var(--resume-accent-ink);padding:13mm 0 8mm;gap:18px}
+.template-minimal h1{font-size:calc(31pt * var(--font-scale));font-weight:500;letter-spacing:-1.3pt}
+.template-minimal .cv-role{font-size:calc(10pt * var(--font-scale));font-weight:400;text-transform:uppercase;letter-spacing:1.7pt}
+.template-minimal .cv-contacts{font-size:calc(8pt * var(--font-scale));gap:5px 15px}
+.template-minimal .cv-section{margin-bottom:16px}
+.template-minimal .cv-section-title{border:0;padding:0;margin-bottom:9px!important;font-size:calc(9pt * var(--font-scale));letter-spacing:2pt;font-weight:600}
+.template-minimal .cv-entry-title{font-weight:700}
+.template-minimal .cv-chip{background:transparent;border:1px solid #dce0e6;border-radius:0;padding:3px 7px}
+.template-minimal .cv-photo{border-radius:0;filter:grayscale(1)}
+/* 06 · Duas colunas: seções essenciais à esquerda, complementos à direita. */
+.template-columns{padding:15mm 15mm}
+.cv-content.cv-layout-grid{display:grid;grid-template-columns:minmax(0,1.64fr) minmax(0,1fr);gap:9mm;align-items:start}
+.cv-layout-grid>.cv-main,.cv-layout-grid>.cv-sidebar{min-width:0}
+.cv-layout-grid .cv-entry-head{display:block}
+.cv-layout-grid .cv-entry-date{display:block;margin-top:3px;white-space:normal}
+.cv-layout-grid .cv-sidebar .cv-section-title{font-size:calc(9pt * var(--font-scale));letter-spacing:.8px}
+.cv-layout-grid .cv-sidebar .cv-chip-list{gap:5px}
+.cv-layout-grid .cv-sidebar .cv-chip{display:block;font-size:calc(8.5pt * var(--font-scale));padding:3px 0;border:0;background:none}
+.cv-layout-grid .cv-sidebar .cv-languages{display:grid;gap:8px}
+.cv-layout-grid .cv-sidebar .cv-section{margin-bottom:15px}
+.template-columns .cv-header{border-bottom:3px solid var(--resume-accent-ink);padding-bottom:14px}
+.template-columns .cv-content{margin-top:19px}
+.template-columns .cv-sidebar{background:var(--resume-accent-soft);border-top:4px solid var(--resume-accent);padding:9mm 6mm 6mm}
+.template-columns .cv-sidebar .cv-section-title{border:0;color:var(--resume-accent-ink)}
+.template-columns .cv-sidebar .cv-chip{border-bottom:1px solid #d8e0e8;padding:6px 0}
+/* 07 · Elegante: tipografia editorial serifada e linhas delicadas. */
+.template-elegant{background:#fffdfa;color:#302a28;font-family:Georgia,'Times New Roman',serif;padding:19mm 18mm}
+.template-elegant .cv-header{text-align:center;flex-direction:column;align-items:center;border:0;border-bottom:1px solid var(--resume-accent-ink);padding:0 0 11mm}
+.template-elegant h1{font-size:calc(35pt * var(--font-scale));font-weight:400;letter-spacing:-.5px;margin-bottom:8px}
+.template-elegant .cv-role{font-style:italic;font-weight:400;letter-spacing:1.1px}
+.template-elegant .cv-contacts{justify-content:center}
+.template-elegant .cv-photo{order:-1;width:25mm;height:30mm;border-radius:50%;border:2px solid var(--resume-accent-soft)}
+.template-elegant .cv-section-title{text-align:center;border:0;padding-bottom:6px;font-size:calc(10pt * var(--font-scale));letter-spacing:2.1px;font-weight:400}
+.template-elegant .cv-section-title::after{content:'';display:block;width:26mm;height:1px;background:var(--resume-accent);margin:7px auto 0}
+.template-elegant .cv-entry-title{font-family:Georgia,'Times New Roman',serif}
+.template-elegant .cv-chip{background:transparent;border-bottom:1px solid #d8d0c5;border-radius:0;padding:4px 7px}
+/* 08 · Tecnologia: cabeçalho e sidebar destacados, sidebar à esquerda. */
+.template-tech{padding:0 14mm 14mm}
+.template-tech .cv-header{background:#15283c;border:0;color:#fff;margin:0 -14mm;padding:14mm 14mm 11mm}
+.template-tech h1{color:#fff;letter-spacing:-1.2px}
+.template-tech .cv-role{color:#e3f3ff}
+.template-tech .cv-contact,.template-tech .cv-contact::before{color:#dbe6f4}
+.template-tech .cv-photo{border:2px solid #accbd4;border-radius:14px}
+.template-tech .cv-content{margin-top:0}
+.template-tech .cv-layout-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);grid-template-areas:'sidebar main';gap:8mm}
+.template-tech .cv-main{grid-area:main;padding-top:10mm}
+.template-tech .cv-sidebar{grid-area:sidebar;background:#eef2f6;min-height:224mm;margin-left:-14mm;padding:10mm 7mm 13mm 14mm;border-right:4px solid var(--resume-accent)}
+.template-tech .cv-sidebar .cv-section-title{border:0;color:var(--resume-accent-ink)}
+.template-tech .cv-main .cv-section-title{border-bottom:2px solid var(--resume-accent)}
+.template-tech .cv-sidebar .cv-language{overflow-wrap:anywhere}
+/* 09 · Linha do tempo: faixa vertical na experiência e marcadores. */
+.template-timeline{padding:17mm 18mm}
+.template-timeline .cv-header{border:0;padding:0 0 8mm;border-bottom:1px solid #d5dee8}
+.template-timeline h1{font-size:calc(31pt * var(--font-scale));font-weight:750}
+.template-timeline .cv-content{margin-top:10mm}
+.template-timeline .cv-section-title{border:0;border-left:5px solid var(--resume-accent);padding:3px 0 3px 11px;font-size:calc(10pt * var(--font-scale))}
+.template-timeline .cv-section:nth-child(2) .cv-entry,.template-timeline .cv-section:nth-child(3) .cv-entry{position:relative;margin-left:11px;padding:0 0 12px 18px;border-left:1px solid #c8d5e1}
+.template-timeline .cv-section:nth-child(2) .cv-entry::before,.template-timeline .cv-section:nth-child(3) .cv-entry::before{content:'';position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--resume-accent);box-shadow:0 0 0 3px #fff}
+.template-timeline .cv-chip{background:var(--resume-accent-soft);border-radius:12px}
+/* 10 · Compacto: alto aproveitamento de espaço e leitura simples. */
+.template-compact{padding:13mm 16mm;font-family:Arial,Helvetica,sans-serif;font-size:calc(9.1pt * var(--font-scale));line-height:1.3}
+.template-compact h1{font-size:calc(24pt * var(--font-scale));margin-bottom:4px}
+.template-compact .cv-header{padding-bottom:10px}
+.template-compact .cv-contacts{margin-top:8px;font-size:calc(7.9pt * var(--font-scale))}
+.template-compact .cv-content{margin-top:11px}
+.template-compact .cv-section{margin-bottom:9px}
+.template-compact .cv-section-title{font-size:calc(9.1pt * var(--font-scale));margin-bottom:5px!important;padding-bottom:3px}
+.template-compact .cv-entry{margin-bottom:6px}
+.template-compact .cv-entry-info,.template-compact .cv-bullets,.template-compact .cv-entry-subtitle,.template-compact .cv-language{font-size:calc(8.8pt * var(--font-scale));line-height:1.33}
+.template-compact .cv-bullets{margin-top:3px}
+.template-compact .cv-chip{background:none;padding:0;border-radius:0;font-size:calc(8.8pt * var(--font-scale))}
+.template-compact .cv-chip:not(:last-child)::after{content:' ·';color:#718198}
+.template-compact .cv-photo{width:24mm;height:28mm}
+/* 11 · Editorial: cabeçalho amplo, seções numeradas, presença visual. */
+.template-editorial{padding-top:0}
+.template-editorial .cv-header{background:var(--resume-accent-dark);color:#fff;padding:12mm 17mm 8mm;margin:0 -17mm;border:0}
+.template-editorial h1{color:#fff;font-size:calc(37pt * var(--font-scale));letter-spacing:-1.7px;line-height:1.04}
+.template-editorial .cv-role{color:#f4f6fc;text-transform:uppercase;letter-spacing:2px;font-size:calc(9pt * var(--font-scale))}
+.template-editorial .cv-contacts .cv-contact,.template-editorial .cv-contacts .cv-contact::before{color:#eef2ff}
+.template-editorial .cv-section{counter-increment:resume-section;margin-bottom:10px}
+.template-editorial .cv-content{counter-reset:resume-section;margin-top:8mm}
+.template-editorial .cv-section-title{display:flex;align-items:center;gap:8px;border-bottom:1px solid #dce2e9;font-size:calc(10pt * var(--font-scale))}
+.template-editorial .cv-section-title::before{content:counter(resume-section,decimal-leading-zero);font-size:calc(9pt * var(--font-scale));background:var(--resume-accent-soft);color:var(--resume-accent-ink);padding:5px;border-radius:2px}
+.template-editorial .cv-chip{border-radius:0;background:var(--resume-accent-soft)}
+/* 12 · Acadêmico: tipografia tradicional e seções ordenadas. */
+.template-academic{font-family:Georgia,'Times New Roman',serif;color:#242424;padding:17mm 20mm}
+.template-academic .cv-header{border-bottom:3px double var(--resume-accent-ink);flex-direction:column;align-items:center;text-align:center;padding-bottom:13px}
+.template-academic h1{font-size:calc(26pt * var(--font-scale));font-weight:700;letter-spacing:0}
+.template-academic .cv-role{font-size:calc(11pt * var(--font-scale));font-weight:400}
+.template-academic .cv-contacts{justify-content:center;margin-top:7px}
+.template-academic .cv-photo{order:-1;border-radius:2px;width:24mm;height:29mm}
+.template-academic .cv-section-title{color:var(--resume-accent-ink);font-size:calc(10pt * var(--font-scale));border-bottom:1px solid #bfc5cc;letter-spacing:.35px;text-transform:none}
+.template-academic .cv-chip{background:none;border:1px solid #d9dde3;border-radius:0}
+.template-academic .cv-entry-title{font-weight:700}
+/* Nova seleção em dispositivos pequenos. A página A4 mantém o layout impresso. */
+@media(max-width:520px){
+ .template-card{min-height:140px;padding:9px}
+ .template-card .template-swatch{height:78px;padding:13px 14px}
+ .template-card small{font-size:9px;line-height:1.3}
+ .color-options{gap:12px}
+ .custom-color-row{gap:8px;padding:9px}
+ .custom-color-hex{font-size:9px}
+}
+
 /* Preview bottom */
 .preview-bottom{display:flex;align-items:flex-start;gap:10px;max-width:790px;width:100%;margin:17px 0 14px;color:#8995a8}.hint-icon{width:16px;height:16px;flex-shrink:0;border:1px solid #a6b4cb;border-radius:50%;font-size:10px;display:grid;place-items:center;font-weight:800}.preview-bottom p{margin:0;font-size:11px;line-height:1.5}.preview-bottom strong{color:#65748d}.print-actions{display:flex;gap:11px;width:100%;max-width:790px}.btn-print{min-height:48px;flex:1;font-size:12px;border-radius:10px}.developer-credit{font-size:10px;color:#a1aabb;display:flex;gap:5px;align-items:center;justify-content:center;margin-top:21px}.developer-credit strong{color:#6e7a8c}.developer-credit>span{margin-left:4px}
 /* Toasts and dialogs */
@@ -43,3 +216,16 @@
   .resume-paper .cv-entry,.resume-paper .cv-section-title{page-break-inside:avoid;break-inside:avoid-page}
   .resume-paper .cv-section-title{page-break-after:avoid;break-after:avoid-page}
 }
+
+/* Currículo Studio 2.1 — novos dados opcionais, contato alternativo e CNH. */
+.form-grid-divider{grid-column:1/-1;display:flex;flex-direction:column;gap:4px;padding-top:12px;border-top:1px solid #e9edf4;margin-top:3px}
+.form-grid-divider strong{font-size:13px;color:#263653}
+.form-grid-divider small,.form-help,.field-intro{font-size:10.5px;color:#8290a6;line-height:1.65}
+.form-help.full{grid-column:1/-1;margin-top:-9px}
+.address-checkbox,.cnh-checkbox{background:#f6f9ff;border:1px solid #dbe6f7;border-radius:10px;padding:12px 14px;margin-top:3px}
+.cnh-options{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:16px 12px;border:1px solid #e6ebf3;background:#f9fbfe;border-radius:12px;padding:14px}
+.cnh-options.full{grid-column:1/-1}
+.cnh-options .check-field{padding:0 0 11px}
+.field-intro{margin:-5px 0 13px}
+.cv-contact{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:520px){.cnh-options{grid-template-columns:1fr}.cnh-options .check-field{padding-bottom:0}}

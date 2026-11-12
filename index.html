@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#111a32">
   <meta name="description" content="Crie currículos profissionais em minutos: edite, escolha um modelo, imprima ou salve como PDF. Desenvolvido por Dev Kayko.">
-  <title>Currículo Studio | Dev Kayko</title>
+  <title>Currículo Studio 2.1 | Dev Kayko</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script src="assets/js/app.js" defer></script>
@@ -50,13 +50,27 @@
               <label class="field full"><span>Nome completo <em>*</em></span><input id="fullName" data-field="fullName" maxlength="100" placeholder="Ex.: Ana Carolina Souza" autocomplete="name"></label>
               <label class="field full"><span>Cargo ou área desejada</span><input id="jobTitle" data-field="jobTitle" maxlength="100" placeholder="Ex.: Assistente administrativo"></label>
               <label class="field"><span>E-mail</span><input id="email" data-field="email" maxlength="120" type="email" placeholder="seunome@email.com" autocomplete="email"></label>
-              <label class="field"><span>Telefone / WhatsApp</span><input id="phone" data-field="phone" maxlength="50" type="tel" placeholder="(87) 99999-9999" autocomplete="tel"></label>
+              <label class="field"><span>Telefone principal</span><input id="phone" data-field="phone" maxlength="40" type="tel" inputmode="tel" placeholder="(87) 99999-9999" autocomplete="tel"></label>
+              <label class="field full"><span>Tipo do telefone principal</span><select id="phoneType" data-field="phoneType" aria-label="Tipo do telefone principal"><option value="">Contato (sem especificar)</option><option value="whatsapp">WhatsApp</option><option value="celular">Celular</option><option value="fixo">Telefone fixo</option></select></label>
               <label class="field"><span>Cidade</span><input id="city" data-field="city" maxlength="75" placeholder="Ex.: Arcoverde" autocomplete="address-level2"></label>
               <label class="field"><span>Estado / UF</span><input id="state" data-field="state" maxlength="60" placeholder="Ex.: PE" autocomplete="address-level1"></label>
+              <div class="form-grid-divider"><strong>Endereço completo (opcional)</strong><small>Informe apenas se necessário para a vaga. Cidade e UF continuam disponíveis mesmo sem o endereço completo.</small></div>
+              <label class="field full"><span>Rua / avenida / logradouro</span><input id="street" data-field="street" maxlength="150" autocomplete="address-line1" placeholder="Ex.: Rua das Flores"></label>
+              <label class="field"><span>Número</span><input id="addressNumber" data-field="addressNumber" maxlength="25" placeholder="Ex.: 120"></label>
+              <label class="field"><span>Bairro</span><input id="district" data-field="district" maxlength="100" placeholder="Ex.: Centro" autocomplete="address-level3"></label>
+              <label class="field"><span>CEP</span><input id="zipCode" data-field="zipCode" maxlength="10" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000"></label>
+              <label class="field"><span>Complemento</span><input id="addressComplement" data-field="addressComplement" maxlength="100" placeholder="Apto, bloco, casa..."></label>
+              <label class="check-field full address-checkbox"><input type="checkbox" id="showFullAddress"><span>Exibir endereço completo no currículo</span></label>
+              <div class="form-help full">O endereço completo só aparece na impressão/PDF se esta opção estiver marcada. Recomendamos cidade e UF para a maioria das vagas.</div>
+              <div class="form-grid-divider"><strong>Redes e apresentação</strong></div>
               <label class="field full"><span>LinkedIn</span><input id="linkedin" data-field="linkedin" maxlength="180" placeholder="linkedin.com/in/seu-perfil"></label>
               <label class="field full"><span>Site, portfólio ou GitHub</span><input id="website" data-field="website" maxlength="180" placeholder="github.com/seu-perfil"></label>
               <label class="field full"><span>Resumo profissional / Objetivo</span><textarea id="summary" data-field="summary" rows="6" maxlength="2200" placeholder="Conte brevemente sobre sua experiência, competências e o que busca profissionalmente."></textarea><small>Escreva 3 a 5 linhas, de preferência. Não é obrigatório informar idade, RG ou CPF.</small></label>
             </div>
+            <div class="repeat-head with-space"><h3>Outros números de contato</h3><span class="count-pill" id="contactsCount">0 itens</span></div>
+            <p class="field-intro">Inclua outros números, como WhatsApp, celular ou telefone fixo. Cada número terá sua identificação no currículo.</p>
+            <div class="repeater" id="contactsList"></div>
+            <button class="btn btn-add" type="button" data-add="contacts"><span aria-hidden="true">+</span> Adicionar outro contato</button>
           </section>
 
           <section class="tab-panel" id="panel-experiencia" aria-labelledby="expTitle" hidden>
@@ -80,7 +94,13 @@
             <div class="section-head"><span class="section-index">04 / 05</span><h2 id="extrasTitle">Habilidades e diferenciais</h2><p>Mostre o que você sabe fazer e os projetos dos quais participou.</p></div>
             <div class="form-grid">
               <label class="field full"><span>Competências e habilidades</span><textarea id="skills" data-field="skills" rows="4" maxlength="1600" placeholder="Atendimento ao cliente, Excel, Organização, Comunicação, Trabalho em equipe"></textarea><small>Separe por vírgulas ou por uma linha para cada habilidade.</small></label>
-              <label class="field full"><span>Informações adicionais</span><textarea id="additional" data-field="additional" rows="4" maxlength="2000" placeholder="Ex.: Disponibilidade para viagens, CNH categoria B, trabalho voluntário..."></textarea><small>Uma informação por linha, se preferir.</small></label>
+              <div class="form-grid-divider"><strong>Carteira Nacional de Habilitação (CNH)</strong><small>Informe somente quando relevante para a vaga.</small></div>
+              <label class="check-field full cnh-checkbox"><input type="checkbox" id="hasCnh"><span>Possui CNH e deseja informar no currículo</span></label>
+              <div id="cnhOptions" class="cnh-options full" hidden>
+                <label class="field"><span>Categoria da CNH</span><select id="cnhCategory" data-field="cnhCategory"><option value="">Selecione (opcional)</option><option value="ACC">ACC</option><option value="A">A</option><option value="B">B</option><option value="AB">AB</option><option value="AC">AC</option><option value="AD">AD</option><option value="AE">AE</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></label>
+                <label class="check-field"><input type="checkbox" id="cnhEar"><span>Possui EAR (atividade remunerada)</span></label>
+              </div>
+              <label class="field full"><span>Informações adicionais</span><textarea id="additional" data-field="additional" rows="4" maxlength="2000" placeholder="Ex.: Disponibilidade para viagens, trabalho voluntário, premiações..."></textarea><small>Uma informação por linha, se preferir.</small></label>
             </div>
             <div class="repeat-head with-space"><h3>Idiomas</h3><span class="count-pill" id="languageCount">0 itens</span></div>
             <div class="repeater" id="languagesList"></div>
@@ -91,22 +111,55 @@
           </section>
 
           <section class="tab-panel" id="panel-visual" aria-labelledby="visualTitle" hidden>
-            <div class="section-head"><span class="section-index">05 / 05</span><h2 id="visualTitle">Identidade visual</h2><p>Escolha o modelo, o tom e o tamanho do texto para seu currículo.</p></div>
+            <div class="section-head"><span class="section-index">05 / 05</span><h2 id="visualTitle">Identidade visual</h2><p>Explore 12 modelos profissionais, personalize as cores e ajuste o tamanho do texto.</p></div>
             <h3 class="subheading">Modelos disponíveis</h3>
             <div class="template-grid" id="templateGrid">
-              <button type="button" class="template-card is-selected" data-template="modern" aria-pressed="true"><span class="template-swatch swatch-modern"><i></i><b></b><b></b><b></b><b></b></span><strong>Moderno</strong><small>Contemporâneo e versátil</small></button>
-              <button type="button" class="template-card" data-template="classic" aria-pressed="false"><span class="template-swatch swatch-classic"><i></i><b></b><b></b><b></b><b></b></span><strong>Clássico</strong><small>Discreto e tradicional</small></button>
-              <button type="button" class="template-card" data-template="executive" aria-pressed="false"><span class="template-swatch swatch-executive"><i></i><b></b><b></b><b></b><b></b></span><strong>Executivo</strong><small>Forte e sofisticado</small></button>
-              <button type="button" class="template-card" data-template="creative" aria-pressed="false"><span class="template-swatch swatch-creative"><i></i><b></b><b></b><b></b><b></b></span><strong>Criativo</strong><small>Expressivo e marcante</small></button>
+              <button type="button" class="template-card is-selected" data-template="modern" aria-pressed="true"><span class="template-swatch swatch-modern" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Moderno</strong><small>Versátil e contemporâneo</small></button>
+              <button type="button" class="template-card" data-template="classic" aria-pressed="false"><span class="template-swatch swatch-classic" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Clássico</strong><small>Discreto e tradicional</small></button>
+              <button type="button" class="template-card" data-template="executive" aria-pressed="false"><span class="template-swatch swatch-executive" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Executivo</strong><small>Cabeçalho corporativo</small></button>
+              <button type="button" class="template-card" data-template="creative" aria-pressed="false"><span class="template-swatch swatch-creative" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Criativo</strong><small>Forte e expressivo</small></button>
+              <button type="button" class="template-card" data-template="minimal" aria-pressed="false"><span class="template-swatch swatch-minimal" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Minimalista</strong><small>Limpo, com muito espaço</small></button>
+              <button type="button" class="template-card" data-template="columns" aria-pressed="false"><span class="template-swatch swatch-columns" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Duas colunas</strong><small>Conteúdo + barra lateral</small></button>
+              <button type="button" class="template-card" data-template="elegant" aria-pressed="false"><span class="template-swatch swatch-elegant" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Elegante</strong><small>Tipografia refinada</small></button>
+              <button type="button" class="template-card" data-template="tech" aria-pressed="false"><span class="template-swatch swatch-tech" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Tecnologia</strong><small>Visual digital com lateral</small></button>
+              <button type="button" class="template-card" data-template="timeline" aria-pressed="false"><span class="template-swatch swatch-timeline" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Linha do tempo</strong><small>Carreira em destaque</small></button>
+              <button type="button" class="template-card" data-template="compact" aria-pressed="false"><span class="template-swatch swatch-compact" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Compacto</strong><small>Mais conteúdo em A4</small></button>
+              <button type="button" class="template-card" data-template="editorial" aria-pressed="false"><span class="template-swatch swatch-editorial" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Editorial</strong><small>Design autoral e marcante</small></button>
+              <button type="button" class="template-card" data-template="academic" aria-pressed="false"><span class="template-swatch swatch-academic" aria-hidden="true"><i></i><b></b><b></b><b></b><b></b></span><strong>Acadêmico</strong><small>Formal e detalhista</small></button>
             </div>
             <div class="visual-settings">
-              <div><h3 class="subheading">Cor de destaque</h3><div class="color-options" id="colorOptions" role="group" aria-label="Cor de destaque">
-                <button class="color-choice is-selected" type="button" data-color="#2355d5" aria-label="Azul" aria-pressed="true" style="--swatch:#2355d5"></button>
-                <button class="color-choice" type="button" data-color="#0f766e" aria-label="Verde petróleo" aria-pressed="false" style="--swatch:#0f766e"></button>
-                <button class="color-choice" type="button" data-color="#783bb5" aria-label="Roxo" aria-pressed="false" style="--swatch:#783bb5"></button>
-                <button class="color-choice" type="button" data-color="#a44533" aria-label="Terracota" aria-pressed="false" style="--swatch:#a44533"></button>
-                <button class="color-choice" type="button" data-color="#263449" aria-label="Grafite" aria-pressed="false" style="--swatch:#263449"></button>
-              </div></div>
+              <div class="palette-section">
+                <div class="palette-title"><h3 class="subheading">Paleta de cores</h3><span class="palette-count">20 cores + personalizada</span></div>
+                <p class="palette-help">Escolha uma cor; ela aparece imediatamente no currículo e na impressão.</p>
+                <div class="color-options" id="colorOptions" role="group" aria-label="Paleta de cores">
+                  <button class="color-choice is-selected" type="button" data-color="#2355d5" title="Azul royal" aria-label="Azul royal" aria-pressed="true" style="--swatch:#2355d5"></button>
+                  <button class="color-choice" type="button" data-color="#163d75" title="Azul marinho" aria-label="Azul marinho" aria-pressed="false" style="--swatch:#163d75"></button>
+                  <button class="color-choice" type="button" data-color="#2774a6" title="Azul oceano" aria-label="Azul oceano" aria-pressed="false" style="--swatch:#2774a6"></button>
+                  <button class="color-choice" type="button" data-color="#0b7a91" title="Azul petróleo" aria-label="Azul petróleo" aria-pressed="false" style="--swatch:#0b7a91"></button>
+                  <button class="color-choice" type="button" data-color="#0f766e" title="Verde petróleo" aria-label="Verde petróleo" aria-pressed="false" style="--swatch:#0f766e"></button>
+                  <button class="color-choice" type="button" data-color="#127c55" title="Esmeralda" aria-label="Esmeralda" aria-pressed="false" style="--swatch:#127c55"></button>
+                  <button class="color-choice" type="button" data-color="#657c37" title="Verde oliva" aria-label="Verde oliva" aria-pressed="false" style="--swatch:#657c37"></button>
+                  <button class="color-choice" type="button" data-color="#248789" title="Turquesa" aria-label="Turquesa" aria-pressed="false" style="--swatch:#248789"></button>
+                  <button class="color-choice" type="button" data-color="#783bb5" title="Roxo" aria-label="Roxo" aria-pressed="false" style="--swatch:#783bb5"></button>
+                  <button class="color-choice" type="button" data-color="#6454aa" title="Violeta" aria-label="Violeta" aria-pressed="false" style="--swatch:#6454aa"></button>
+                  <button class="color-choice" type="button" data-color="#9870b6" title="Lavanda" aria-label="Lavanda" aria-pressed="false" style="--swatch:#9870b6"></button>
+                  <button class="color-choice" type="button" data-color="#a74186" title="Magenta" aria-label="Magenta" aria-pressed="false" style="--swatch:#a74186"></button>
+                  <button class="color-choice" type="button" data-color="#ba5e72" title="Rosa antigo" aria-label="Rosa antigo" aria-pressed="false" style="--swatch:#ba5e72"></button>
+                  <button class="color-choice" type="button" data-color="#9f344a" title="Vinho" aria-label="Vinho" aria-pressed="false" style="--swatch:#9f344a"></button>
+                  <button class="color-choice" type="button" data-color="#b63d39" title="Vermelho" aria-label="Vermelho" aria-pressed="false" style="--swatch:#b63d39"></button>
+                  <button class="color-choice" type="button" data-color="#a44533" title="Terracota" aria-label="Terracota" aria-pressed="false" style="--swatch:#a44533"></button>
+                  <button class="color-choice" type="button" data-color="#bb6633" title="Laranja queimado" aria-label="Laranja queimado" aria-pressed="false" style="--swatch:#bb6633"></button>
+                  <button class="color-choice" type="button" data-color="#95702a" title="Dourado" aria-label="Dourado" aria-pressed="false" style="--swatch:#95702a"></button>
+                  <button class="color-choice" type="button" data-color="#745748" title="Marrom" aria-label="Marrom" aria-pressed="false" style="--swatch:#745748"></button>
+                  <button class="color-choice" type="button" data-color="#263449" title="Grafite" aria-label="Grafite" aria-pressed="false" style="--swatch:#263449"></button>
+                </div>
+                <label class="custom-color-row" for="customColorPicker">
+                  <span class="custom-color-icon" aria-hidden="true">✦</span>
+                  <span class="custom-color-text"><strong>Cor personalizada</strong><small>Selecione qualquer tonalidade</small></span>
+                  <span class="custom-color-hex" id="customColorValue">#2355D5</span>
+                  <input type="color" id="customColorPicker" value="#2355d5" aria-label="Selecionar cor personalizada">
+                </label>
+              </div>
               <div class="setting-row"><div><h3 class="subheading">Tamanho do texto</h3><p>O ajuste também afeta a impressão.</p></div><label class="font-setting"><span id="fontSizeValue">100%</span><input id="fontSize" type="range" min="90" max="110" step="5" value="100" aria-label="Tamanho do texto do currículo"></label></div>
               <div class="setting-row"><div><h3 class="subheading">Foto no currículo</h3><p>Opcional. Geralmente não é necessária.</p></div><label class="switch"><input type="checkbox" id="showPhoto"><span class="switch-track"></span><span class="sr-only">Exibir foto</span></label></div>
               <div class="photo-settings" id="photoSettings" hidden><input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button class="btn btn-outline" type="button" id="uploadPhotoBtn">Escolher foto</button><button class="btn btn-quiet" type="button" id="removePhotoBtn">Remover</button><span id="photoStatus">Nenhuma foto escolhida</span></div>

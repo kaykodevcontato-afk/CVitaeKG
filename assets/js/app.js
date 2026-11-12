@@ -1,5 +1,5 @@
 /*
- * Currículo Studio 1.0 — Desenvolvedor: Dev Kayko
+ * Currículo Studio 2.1 — Desenvolvedor: Dev Kayko
  * Aplicativo estático para GitHub Pages. Sem bibliotecas, sem servidor e sem rastreamento.
  * Edição rápida: veja FIELDS, COLLECTIONS, DEMO e buildResume() abaixo.
  */
@@ -7,10 +7,16 @@
   'use strict';
 
   const STORAGE_KEY = 'devkayko_curriculo_studio_v1';
-  const TEMPLATES = ['modern', 'classic', 'executive', 'creative'];
-  const COLORS = ['#2355d5', '#0f766e', '#783bb5', '#a44533', '#263449'];
-  const FIELDS = ['fullName', 'jobTitle', 'email', 'phone', 'city', 'state', 'linkedin', 'website', 'summary', 'skills', 'additional'];
+  const TEMPLATES = ['modern', 'classic', 'executive', 'creative', 'minimal', 'columns', 'elegant', 'tech', 'timeline', 'compact', 'editorial', 'academic'];
+  const COLORS = ['#2355d5', '#163d75', '#2774a6', '#0b7a91', '#0f766e', '#127c55', '#657c37', '#248789', '#783bb5', '#6454aa', '#9870b6', '#a74186', '#ba5e72', '#9f344a', '#b63d39', '#a44533', '#bb6633', '#95702a', '#745748', '#263449'];
+  const FIELDS = ['fullName', 'jobTitle', 'email', 'phone', 'phoneType', 'city', 'state', 'street', 'addressNumber', 'district', 'zipCode', 'addressComplement', 'linkedin', 'website', 'summary', 'skills', 'additional', 'cnhCategory'];
+  const PHONE_TYPES = {whatsapp:'WhatsApp', celular:'Celular', fixo:'Fixo'};
+  const CNH_CATEGORIES = ['ACC', 'A', 'B', 'AB', 'AC', 'AD', 'AE', 'C', 'D', 'E'];
   const COLLECTIONS = {
+    contacts: [
+      {key:'type',label:'Tipo de número',type:'select',options:[{value:'whatsapp',label:'WhatsApp'},{value:'celular',label:'Celular'},{value:'fixo',label:'Telefone fixo'}]},
+      {key:'number',label:'Número com DDD',type:'tel',placeholder:'Ex.: (87) 98888-8888',max:40}
+    ],
     experience: [
       {key:'role',label:'Cargo / função',placeholder:'Ex.: Assistente administrativo',full:false,max:100},
       {key:'company',label:'Empresa / organização',placeholder:'Ex.: Empresa ABC',full:false,max:120},
@@ -41,10 +47,10 @@
       {key:'description',label:'Descrição e resultados',placeholder:'O que foi desenvolvido e quais habilidades foram utilizadas.',type:'textarea',full:true,max:1200}
     ]
   };
-  const LABELS = {experience:'Experiência',education:'Formação',courses:'Curso',languages:'Idioma',projects:'Projeto'};
-  const COUNTS = {education:'educationCount',courses:'courseCount',languages:'languageCount',projects:'projectCount'};
+  const LABELS = {contacts:'Contato',experience:'Experiência',education:'Formação',courses:'Curso',languages:'Idioma',projects:'Projeto'};
+  const COUNTS = {contacts:'contactsCount',education:'educationCount',courses:'courseCount',languages:'languageCount',projects:'projectCount'};
   const DEMO = {
-    fullName:'Mariana Oliveira',jobTitle:'Assistente Administrativa',email:'mariana.exemplo@email.com',phone:'(87) 99999-0000',city:'Arcoverde',state:'PE',linkedin:'linkedin.com/in/mariana-exemplo',website:'',
+    fullName:'Mariana Oliveira',jobTitle:'Assistente Administrativa',email:'mariana.exemplo@email.com',phone:'(87) 99999-0000',phoneType:'whatsapp',city:'Arcoverde',state:'PE',street:'Rua das Acácias',addressNumber:'42',district:'Centro',zipCode:'',addressComplement:'',showFullAddress:true,contacts:[{type:'fixo',number:'(87) 3821-0000'}],hasCnh:true,cnhCategory:'B',cnhEar:false,linkedin:'linkedin.com/in/mariana-exemplo',website:'',
     summary:'Profissional organizada, comunicativa e dedicada, com experiência em atendimento ao público, rotinas administrativas e apoio a equipes. Busca contribuir para a eficiência dos processos e a qualidade do atendimento.',
     experience:[
       {role:'Assistente Administrativa',company:'Empresa Exemplo',location:'Arcoverde, PE',start:'2023',end:'2025',current:false,description:'Organização de documentos e atualização de cadastros.\nAtendimento a clientes por telefone e presencialmente.\nAcompanhamento de planilhas e relatórios internos.'},
@@ -62,7 +68,29 @@
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const cleanText = (v,max=2500) => typeof v === 'string' ? v.slice(0,max) : '';
   const cleanPhoto = v => typeof v === 'string' && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(v) && v.length < 650000 ? v : '';
-  const blankState = () => ({...Object.fromEntries(FIELDS.map(x=>[x,''])),...Object.fromEntries(Object.keys(COLLECTIONS).map(x=>[x,[]])),template:'modern',color:COLORS[0],fontSize:100,showPhoto:false,photo:''});
+  // A cor personalizada é validada como HEX (#RRGGBB), inclusive ao importar backup.
+  function blendHex(a,b,ratio){
+    const out=[1,3,5].map(i=>{
+      const x=parseInt(a.slice(i,i+2),16),y=parseInt(b.slice(i,i+2),16);
+      return Math.round(x*(1-ratio)+y*ratio).toString(16).padStart(2,'0');
+    });
+    return '#'+out.join('');
+  }
+  function luminance(hex){
+    const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255);
+    const c=rgb.map(v=>v<=.04045?v/12.92:Math.pow((v+.055)/1.055,2.4));
+    return c[0]*.2126+c[1]*.7152+c[2]*.0722;
+  }
+  function contrast(a,b){
+    const l1=luminance(a),l2=luminance(b);
+    return (Math.max(l1,l2)+.05)/(Math.min(l1,l2)+.05);
+  }
+  function accentForText(hex){
+    let result=hex;
+    for(let n=0;n<12 && contrast(result,'#ffffff')<4.5;n++)result=blendHex(result,'#102033',.14);
+    return result;
+  }
+  const blankState = () => ({...Object.fromEntries(FIELDS.map(x=>[x,''])),...Object.fromEntries(Object.keys(COLLECTIONS).map(x=>[x,[]])),showFullAddress:false,hasCnh:false,cnhEar:false,template:'modern',color:COLORS[0],fontSize:100,showPhoto:false,photo:''});
   let state = blankState();
   let toastTimeout = null;
   let saveTimeout = null;
@@ -72,15 +100,20 @@
     const output = blankState();
     if (!data || typeof data !== 'object' || Array.isArray(data)) return output;
     for(const f of FIELDS) output[f] = cleanText(data[f],f==='summary'||f==='additional'?2200:1600);
+    output.phoneType = Object.hasOwn(PHONE_TYPES, output.phoneType) ? output.phoneType : '';
+    output.cnhCategory = CNH_CATEGORIES.includes(output.cnhCategory) ? output.cnhCategory : '';
+    output.showFullAddress = data.showFullAddress === true;
+    output.hasCnh = data.hasCnh === true;
+    output.cnhEar = data.cnhEar === true;
     for(const [collection, schema] of Object.entries(COLLECTIONS)){
       output[collection] = Array.isArray(data[collection]) ? data[collection].slice(0,30).map(item => {
         const row={};
-        for(const f of schema) row[f.key] = f.type==='checkbox' ? item?.[f.key]===true : cleanText(item?.[f.key],f.max||250);
+        for(const f of schema) row[f.key] = f.type==='checkbox' ? item?.[f.key]===true : f.type==='select' ? (f.options.some(o=>o.value===item?.[f.key])?item[f.key]:f.options[0].value) : cleanText(item?.[f.key],f.max||250);
         return row;
       }) : [];
     }
     output.template=TEMPLATES.includes(data.template)?data.template:'modern';
-    output.color=COLORS.includes(data.color)?data.color:COLORS[0];
+    output.color=typeof data.color==='string' && /^#[0-9a-fA-F]{6}$/.test(data.color)?data.color.toLowerCase():COLORS[0];
     output.fontSize=[90,95,100,105,110].includes(Number(data.fontSize))?Number(data.fontSize):100;
     output.showPhoto=data.showPhoto===true;
     output.photo=cleanPhoto(data.photo);
@@ -107,6 +140,10 @@
   function renderForm(){
     for(const f of FIELDS) $(f).value=state[f];
     for(const key of Object.keys(COLLECTIONS)) renderRepeater(key);
+    $('showFullAddress').checked=state.showFullAddress;
+    $('hasCnh').checked=state.hasCnh;
+    $('cnhEar').checked=state.cnhEar;
+    $('cnhOptions').hidden=!state.hasCnh;
     renderSettings();updateProgress();renderResume();
   }
   function renderSettings(){
@@ -116,6 +153,7 @@
     document.querySelectorAll('[data-color]').forEach(btn=>{
       const active=btn.dataset.color===state.color;btn.classList.toggle('is-selected',active);btn.setAttribute('aria-pressed',String(active));
     });
+    $('customColorPicker').value=state.color; $('customColorValue').textContent=state.color.toUpperCase();
     $('fontSize').value=state.fontSize;$('fontSizeValue').textContent=state.fontSize+'%';
     $('showPhoto').checked=state.showPhoto;$('photoSettings').hidden=!state.showPhoto;
     $('photoStatus').textContent=state.photo?'Foto selecionada':'Nenhuma foto escolhida';
@@ -127,10 +165,11 @@
       <div class="repeat-card-top"><strong>${escapeHtml(LABELS[collection])} ${index+1}</strong><button type="button" class="remove-item" data-remove="${collection}" data-index="${index}" aria-label="Remover ${escapeHtml(LABELS[collection])} ${index+1}">Remover</button></div>
       <div class="repeat-grid">${fields.map(f=>{
         if(f.type==='checkbox')return `<label class="check-field"><input type="checkbox" data-item-field="${f.key}" ${item[f.key]?'checked':''}><span>${escapeHtml(f.label)}</span></label>`;
+        if(f.type==='select')return `<label class="field"><span>${escapeHtml(f.label)}</span><select data-item-field="${f.key}">${f.options.map(opt=>`<option value="${escapeHtml(opt.value)}" ${item[f.key]===opt.value?'selected':''}>${escapeHtml(opt.label)}</option>`).join('')}</select></label>`;
         const disabled=collection==='experience'&&f.key==='end'&&item.current;
         return `<label class="field ${f.full?'full':''}"><span>${escapeHtml(f.label)}</span>${f.type==='textarea'
           ? `<textarea data-item-field="${f.key}" maxlength="${f.max||2500}" rows="3" placeholder="${escapeHtml(f.placeholder)}">${escapeHtml(item[f.key])}</textarea>`
-          : `<input data-item-field="${f.key}" maxlength="${f.max||250}" value="${escapeHtml(item[f.key])}" placeholder="${escapeHtml(f.placeholder)}" ${disabled?'disabled':''}>`}</label>`;
+          : `<input type="${f.type==='tel'?'tel':'text'}" ${f.type==='tel'?'inputmode="tel"':''} data-item-field="${f.key}" maxlength="${f.max||250}" value="${escapeHtml(item[f.key])}" placeholder="${escapeHtml(f.placeholder)}" ${disabled?'disabled':''}>`}</label>`;
       }).join('')}</div></div>`).join('');
     const countId=COUNTS[collection];if(countId)$(countId).textContent=state[collection].length+' '+(state[collection].length===1?'item':'itens');
   }
@@ -143,10 +182,11 @@
       const active=panel.id==='panel-'+name;panel.hidden=!active;panel.classList.toggle('is-active',active);
     });
   }
-  function nonEmpty(item){return item&&Object.entries(item).some(([key,value])=>key!=='current'&&String(value||'').trim().length>0);}
+  function nonEmpty(item){return item&&Object.entries(item).some(([key,value])=>!['current','type'].includes(key)&&String(value||'').trim().length>0);}
   function updateProgress(){
-    const essentials=['fullName','jobTitle','email','phone','city','summary','skills'];
+    const essentials=['fullName','jobTitle','email','city','summary','skills'];
     let completed=essentials.filter(key=>state[key].trim()).length;
+    completed+=(state.phone.trim()||state.contacts.some(item=>item.number.trim()))?1:0;
     completed+=state.experience.some(nonEmpty)?1:0;
     completed+=state.education.some(nonEmpty)?1:0;
     completed+=state.courses.some(nonEmpty)?1:0;
@@ -168,12 +208,26 @@
     const paper=$('resumePaper');
     paper.className='resume-paper template-'+state.template;
     paper.style.setProperty('--resume-accent',state.color);
+    const accentInk=accentForText(state.color);
+    paper.style.setProperty('--resume-accent-ink',accentInk);
+    paper.style.setProperty('--resume-accent-soft',blendHex(state.color,'#ffffff',.93));
+    paper.style.setProperty('--resume-accent-dark',blendHex(accentInk,'#102033',.22));
+    paper.style.setProperty('--resume-accent-on',contrast(state.color,'#ffffff')>=4.5?'#ffffff':'#17243b');
     paper.style.setProperty('--font-scale',String(state.fontSize/100));
     const name=state.fullName.trim();
     const nameDisplay=name?plain(name):'<span class="cv-muted">Seu nome completo</span>';
     const role=state.jobTitle.trim()?plain(state.jobTitle):'<span class="cv-placeholder-role">Sua área profissional</span>';
-    const location=[state.city.trim(),state.state.trim()].filter(Boolean).join(' / ');
-    const contacts=[location,state.phone,state.email,state.linkedin,state.website].map(x=>x.trim()).filter(Boolean);
+    // Mantém cidade/UF como padrão; o endereço detalhado só aparece com autorização.
+    const cityUF=[state.city.trim(),state.state.trim()].filter(Boolean).join(' / ');
+    const detailed=[state.street.trim(),state.addressNumber.trim()].filter(Boolean).join(', ');
+    const fullAddress=[detailed,state.addressComplement.trim(),state.district.trim(),cityUF,state.zipCode.trim()].filter(Boolean).join(' • ');
+    const location=state.showFullAddress && [state.street,state.addressNumber,state.district,state.zipCode,state.addressComplement].some(s=>s.trim()) ? fullAddress : cityUF;
+    const labelNumber=(type,number)=>`${PHONE_TYPES[type]||'Contato'}: ${number.trim()}`;
+    const contactNumbers=[
+      state.phone.trim()?labelNumber(state.phoneType,state.phone):'',
+      ...state.contacts.filter(x=>x.number.trim()).map(x=>labelNumber(x.type,x.number))
+    ].filter(Boolean);
+    const contacts=[location,...contactNumbers,state.email,state.linkedin,state.website].map(x=>x.trim()).filter(Boolean);
     const photo=state.showPhoto&&state.photo?`<img class="cv-photo" src="${escapeHtml(state.photo)}" alt="Foto de perfil">`:'';
     const header=`<header class="cv-header"><div class="cv-profile"><h1>${nameDisplay}</h1><div class="cv-role">${role}</div>${contacts.length?`<div class="cv-contacts">${contacts.map(x=>`<span class="cv-contact">${escapeHtml(x)}</span>`).join('')}</div>`:''}</div>${photo}</header>`;
     const summary=state.summary.trim()?section('Perfil profissional',`<p class="cv-summary">${plain(state.summary)}</p>`):'';
@@ -184,9 +238,22 @@
     const skillsHtml=skills.length?`<div class="cv-chip-list">${skills.map(x=>`<span class="cv-chip">${escapeHtml(x)}</span>`).join('')}</div>`:'';
     const langs=state.languages.filter(nonEmpty).map(x=>`<div class="cv-language"><strong>${plain(x.name)}</strong>${x.level?` <span>— ${plain(x.level)}</span>`:''}</div>`).join('');
     const projects=state.projects.filter(nonEmpty).map(x=>resumeEntry({title:x.name,subtitle:x.context,description:x.description,asBullets:false})).join('');
-    const addition=state.additional.trim()?`<div class="cv-entry-info">${plain(state.additional)}</div>`:'';
-    const content=[summary,section('Experiência profissional',experience),section('Formação acadêmica',education),section('Cursos e certificações',courses),section('Competências',skillsHtml),section('Idiomas',langs?`<div class="cv-languages">${langs}</div>`:''),section('Projetos e realizações',projects),section('Informações adicionais',addition)].join('');
-    $('resumeBody').innerHTML=header+`<div class="cv-content">${content || '<div class="cv-empty"><p>Seu currículo aparecerá aqui<br>conforme você preencher os campos.</p></div>'}</div>`;
+    const cnh=state.hasCnh ? `CNH${state.cnhCategory?' — Categoria '+state.cnhCategory:''}${state.cnhEar?' • EAR':''}` : '';
+    const addition=[cnh,state.additional.trim()].filter(Boolean).map(x=>`<div class="cv-entry-info">${plain(x)}</div>`).join('');
+    const blocks={
+      summary, experience:section('Experiência profissional',experience),education:section('Formação acadêmica',education),
+      courses:section('Cursos e certificações',courses),skills:section('Competências',skillsHtml),
+      languages:section('Idiomas',langs?`<div class="cv-languages">${langs}</div>`:''),
+      projects:section('Projetos e realizações',projects),additional:section('Informações adicionais',addition)
+    };
+    const mainContent=['summary','experience','education','courses','skills','languages','projects','additional'].map(key=>blocks[key]).join('');
+    // Apenas modelos que têm barra lateral recebem duas colunas reais.
+    // A estrutura já é a mesma usada pelo PDF/versão impressa (sem canvas nem imagem rasterizada).
+    const split=['columns','tech'].includes(state.template);
+    const content=split
+      ? `<div class="cv-content cv-layout-grid"><div class="cv-main">${['summary','experience','education','projects'].map(key=>blocks[key]).join('')}</div><aside class="cv-sidebar">${['skills','courses','languages','additional'].map(key=>blocks[key]).join('')}</aside></div>`
+      : `<div class="cv-content">${mainContent}</div>`;
+    $('resumeBody').innerHTML=header+(mainContent?content:'<div class="cv-content"><div class="cv-empty"><p>Seu currículo aparecerá aqui<br>conforme você preencher os campos.</p></div></div>');
     requestAnimationFrame(resizePreview);
   }
   function resizePreview(){
@@ -204,7 +271,7 @@
     return true;
   }
   function saveJson(){
-    const payload={...state,version:'1.0',exportedAt:new Date().toISOString()};
+    const payload={...state,version:'2.1',exportedAt:new Date().toISOString()};
     const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
     const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
@@ -227,10 +294,13 @@
     document.querySelectorAll('[data-field]').forEach(input=>input.addEventListener('input',()=>{
       state[input.dataset.field]=input.value;updateProgress();renderResume();queueSave();
     }));
+    $('showFullAddress').addEventListener('change',e=>{state.showFullAddress=e.target.checked;renderResume();queueSave();});
+    $('hasCnh').addEventListener('change',e=>{state.hasCnh=e.target.checked;$('cnhOptions').hidden=!state.hasCnh;renderResume();queueSave();});
+    $('cnhEar').addEventListener('change',e=>{state.cnhEar=e.target.checked;renderResume();queueSave();});
     document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>showTab(btn.dataset.tab)));
     document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{
       const key=btn.dataset.add;if(state[key].length>=30){notify('Limite de 30 registros nessa seção.');return;}
-      const row=Object.fromEntries(COLLECTIONS[key].map(f=>[f.key,f.type==='checkbox'?false:'']));
+      const row=Object.fromEntries(COLLECTIONS[key].map(f=>[f.key,f.type==='checkbox'?false:f.type==='select'?f.options[0].value:'']));
       state[key].push(row);renderRepeater(key);updateProgress();queueSave();
       const last=$(key+'List').lastElementChild;last?.querySelector('input:not([type=checkbox]),textarea')?.focus();
     }));
@@ -261,6 +331,12 @@
     document.querySelectorAll('[data-color]').forEach(btn=>btn.addEventListener('click',()=>{
       state.color=btn.dataset.color;renderSettings();renderResume();queueSave();
     }));
+    // A seleção de tonalidade própria não depende de pertencer à paleta predefinida.
+    $('customColorPicker').addEventListener('input',event=>{
+      const chosen=event.target.value;
+      if(!/^#[0-9a-fA-F]{6}$/.test(chosen))return;
+      state.color=chosen.toLowerCase();renderSettings();renderResume();queueSave();
+    });
     $('fontSize').addEventListener('input',event=>{
       state.fontSize=Number(event.target.value);$('fontSizeValue').textContent=state.fontSize+'%';renderResume();queueSave();
     });
@@ -317,7 +393,7 @@
     window.addEventListener('resize',resizePreview);
     window.addEventListener('beforeprint',()=>{ /* No hidden form fields or branding printed */ });
   }
-  function hasData(){return FIELDS.some(f=>state[f].trim())||Object.keys(COLLECTIONS).some(k=>state[k].some(nonEmpty))||!!state.photo;}
+  function hasData(){return FIELDS.some(f=>state[f].trim())||Object.keys(COLLECTIONS).some(k=>state[k].some(nonEmpty))||state.showFullAddress||state.hasCnh||state.cnhEar||!!state.photo;}
   function init(){
     loadSaved();$('currentYear').textContent=String(new Date().getFullYear());
     attachEvents();renderForm();requestAnimationFrame(resizePreview);

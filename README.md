@@ -1,4 +1,4 @@
-# Currículo Studio 1.0 — Dev Kayko
+# Currículo Studio 2.0 — Dev Kayko
 
 Gerador de currículos profissionais para clientes, desenvolvido em **HTML + CSS + JavaScript puros**, sem frameworks, sem servidor, sem banco de dados e compatível com **GitHub Pages**.
 
@@ -6,8 +6,8 @@ Gerador de currículos profissionais para clientes, desenvolvido em **HTML + CSS
 
 - Formulário completo com dados pessoais, objetivo profissional, experiências, formação, cursos, competências, idiomas, projetos e informações adicionais.
 - Atualização da prévia em tempo real no **papel A4**.
-- **4 modelos:** Moderno, Clássico, Executivo e Criativo.
-- **5 cores** e ajuste de fonte (90% a 110%).
+- **12 modelos:** Moderno, Clássico, Executivo, Criativo, Minimalista, Duas colunas, Elegante, Tecnologia, Linha do tempo, Compacto, Editorial e Acadêmico.
+- **20 cores predefinidas + qualquer cor personalizada (seletor HEX)** e ajuste de fonte (90% a 110%).
 - Foto opcional, reduzida automaticamente no dispositivo (sem upload externo).
 - **Imprimir** e **Salvar em PDF** usando a impressão nativa do navegador.
 - **Backup** e **Importar** em JSON para voltar a editar o currículo.
@@ -71,4 +71,21 @@ Para mudar o título, texto ou o nome do desenvolvedor, edite o `index.html`. Pa
 - O recurso de PDF requer navegador/sistema com opção de impressão para PDF. Em celulares, o caminho varia conforme o navegador.
 
 **Desenvolvimento:** Dev Kayko  
-**Versão:** 1.0
+**Versão:** 2.1
+
+## Novidades da versão 2.0
+
+- Agora há 12 estilos realmente diferentes; os modelos **Duas colunas** e **Tecnologia** organizam seções principais e complementares em colunas no próprio HTML, inclusive ao imprimir.
+- O seletor **Cor personalizada** permite usar qualquer cor hexadecimal. Em cores claras, a interface ajusta automaticamente os tons usados em textos, garantindo legibilidade melhor.
+- Backups JSON da versão 1.0 continuam funcionando e rascunhos locais existentes são preservados (mesma chave de armazenamento).
+- Mude paletas em `COLORS` e modelos em `TEMPLATES` no `assets/js/app.js`; edite estilos `.template-*` no `assets/css/styles.css` e os cartões do painel Visual em `index.html`.
+- Para cores preencherem cabeçalhos ao exportar PDF, marque **Gráficos de segundo plano** na tela de impressão. Documentos extensos podem passar de uma página.
+
+
+## Novidades da versão 2.1 — endereços, telefones e CNH
+
+- **Telefone principal:** selecione se é WhatsApp, celular ou telefone fixo. Backups antigos continuam com o número principal e sem rótulo obrigatório.
+- **Outros números de contato:** adicione e remova quantos forem necessários, com tipo separado para cada número (WhatsApp, celular, fixo).
+- **Endereço completo (opcional):** rua/avenida, número, bairro, CEP e complemento, além de cidade e UF. **O endereço completo só aparece no currículo se marcar “Exibir endereço completo no currículo”**, para proteger a privacidade dos candidatos.
+- **CNH (opcional):** marque se possui, informe a categoria e, se necessário, EAR. Se não marcar, nada sobre habilitação aparece no currículo.
+- Tudo funciona nos 12 modelos, na prévia, no PDF pela impressão e no backup JSON. Dados da versão 1.0 e 2.0 continuam aceitos. Para editar, procure em `index.html` por "Endereço completo", "Outros números" ou "Carteira Nacional"; no JavaScript, por `FIELDS`, `COLLECTIONS` e `renderResume()`.
