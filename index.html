@@ -6,11 +6,18 @@
   <meta name="theme-color" content="#111a32">
   <meta name="description" content="Crie currículos profissionais em minutos: edite, escolha um modelo, imprima ou salve como PDF. Desenvolvido por Dev Kayko.">
   <title>Currículo Studio 2.1 | Dev Kayko</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/icons/icon-192.png" type="image/png" sizes="192x192">
   <link rel="stylesheet" href="assets/css/styles.css">
   <script src="assets/js/app.js" defer></script>
+  <script src="./assets/js/pwa-register.js" defer></script>
   <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#111a32">
+  <style>
+    .developer-credit .developer-link { color: inherit; text-decoration: none; }
+    .developer-credit .developer-link:hover,
+    .developer-credit .developer-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -176,7 +183,7 @@
         <div class="preview-viewport" id="previewViewport"><div class="paper-outer" id="paperOuter"><article class="resume-paper template-modern" id="resumePaper" aria-label="Prévia do currículo" style="--resume-accent:#2355d5;--font-scale:1"><div id="resumeBody"></div></article></div></div>
         <div class="preview-bottom"><span class="hint-icon" aria-hidden="true">i</span><p>O arquivo PDF será gerado usando a opção <strong>Salvar como PDF</strong> na janela de impressão do navegador.</p></div>
         <div class="print-actions"><button class="btn btn-outline btn-print" type="button" id="printBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 15h12v6H6zM18 12h.01"/></svg>Imprimir</button><button class="btn btn-primary btn-print" type="button" id="pdfBtn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg>Salvar em PDF</button></div>
-        <div class="developer-credit">Criado com cuidado por <strong>Dev Kayko</strong> <span>© <span id="currentYear">2026</span></span></div>
+        <div class="developer-credit">Criado com cuidado por <a class="developer-link" href="https://www.instagram.com/dev_okyak/?hl=pt-br" target="_blank" rel="noopener noreferrer" title="Instagram Dev Kayko (@dev_okyak)" aria-label="Dev Kayko — abrir Instagram @dev_okyak em nova aba"><strong>Dev Kayko</strong></a> <span>© <span id="currentYear">2026</span></span></div>
       </section>
     </main>
   </div>

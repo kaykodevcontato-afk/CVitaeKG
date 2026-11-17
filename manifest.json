@@ -3,18 +3,37 @@
   "description": "Crie currículos profissionais em minutos: edite, escolha um modelo, imprima ou salve como PDF. Desenvolvido por Dev Kayko.",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Currículo KG",
+  "name": "Currículo Studio — Dev Kayko",
   "orientation": "any",
   "scope": "/CVitaeKG/",
-  "short_name": "Currículo",
+  "short_name": "Currículo Studio",
   "start_url": "/CVitaeKG/",
   "theme_color": "#111a32",
   "icons": [
     {
-      "src": "/CVitaeKG/assets/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "any"
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "id": "/CVitaeKG/"
+  "id": "/CVitaeKG/",
+  "lang": "pt-BR",
+  "categories": [
+    "productivity",
+    "business",
+    "utilities"
+  ]
 }
