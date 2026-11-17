@@ -30,3 +30,14 @@ O worker usa cache `curriculo-studio-v1`. Ao publicar nova versão dos arquivos 
 ## Privacidade
 
 O Service Worker armazena apenas respostas GET de mesma origem dentro da pasta do projeto. Ele não faz upload dos dados digitados pelo cliente. Mantenha o cuidado com dados armazenados localmente em computadores compartilhados.
+
+## Atualização PWABuilder — recursos opcionais
+
+- `prefer_related_applications: false`: prioriza a experiência PWA instalada.
+- `display_override: ["standalone"]`: mantém a interface do app sem barra normal de navegação; não ativa controles personalizados de janela que exigiriam CSS adicional.
+- `launch_handler`: solicita reutilizar a janela já aberta em navegadores compatíveis.
+- `shortcuts`: cria atalho **Abrir editor de currículos**, apontando para a tela inicial (`#inicio`). O atalho **não apaga automaticamente** dados de clientes em edição.
+- Outros avisos do PWABuilder (IARC, aplicativo nativo, widgets, screenshots etc.) são opcionais. Screenshots reais devem ser capturadas com o site no navegador antes de adicionar ao manifesto.
+- O link **Dev Kayko** no rodapé abre o Instagram oficial `@dev_okyak` em nova aba.
+
+**Observação:** o ZIP continua sendo uma atualização incremental, não inclui `assets/css/styles.css` nem `assets/js/app.js`. Mantenha-os no repositório; o PWA completo depende deles.

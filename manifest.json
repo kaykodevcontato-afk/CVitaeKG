@@ -35,5 +35,27 @@
     "productivity",
     "business",
     "utilities"
+  ],
+  "prefer_related_applications": false,
+  "display_override": [
+    "standalone"
+  ],
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "shortcuts": [
+    {
+      "name": "Abrir editor de currículos",
+      "short_name": "Editor",
+      "description": "Acessar o editor de currículos do Currículo Studio",
+      "url": "/CVitaeKG/#inicio",
+      "icons": [
+        {
+          "src": "./assets/icons/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
   ]
 }
