@@ -1,0 +1,27 @@
+{
+  "background_color": "#ffffff",
+  "description": "Crie currículos profissionais em minutos: edite, escolha um modelo, imprima ou salve como PDF. Desenvolvido por Dev Kayko.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Currículo KG",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Currículo",
+  "start_url": "/",
+  "theme_color": "#111a32",
+  "icons": [
+    {
+      "src": "https://kaykodevcontato-afk.github.io/CVitaeKG/assets/favicon.svg",
+      "type": "image/svg+xml",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "/curriculo-devkg"
+}
